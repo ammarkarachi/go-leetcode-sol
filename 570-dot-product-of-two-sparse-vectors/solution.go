@@ -1,18 +1,16 @@
 package solution
 
 type SparseVector struct {
-	Map map[int]int
+	IndexValue [][]int
 }
 
 func Constructor(nums []int) SparseVector {
-	sparseMap := make(map[int]int)
+	ivPairs := [][]int{}
 	for i := 0; i < len(nums); i++ {
-		if nums[i] != 0 {
-			sparseMap[i] = nums[i]
-		}
+		ivPairs = append(ivPairs, []int{i, nums[i]})
 	}
 	vec := SparseVector{
-		Map: sparseMap,
+		IndexValue: ivPairs,
 	}
 	return vec
 
@@ -20,11 +18,18 @@ func Constructor(nums []int) SparseVector {
 
 // Return the dotProduct of two sparse vectors
 func (this *SparseVector) dotProduct(vec SparseVector) int {
-	sum := 0
-	for k, v := range this.Map {
-		if val, ok := vec.Map[k]; ok {
-			sum += val * v
+	sum, i, j := 0, 0, 0
+	for i < len(this.IndexValue) && j < len(vec.IndexValue) {
+		if this.IndexValue[i][0] == this.IndexValue[j][0] {
+			sum += this.IndexValue[i][1] * vec.IndexValue[j][1]
+			i++
+			j++
+		} else if this.IndexValue[i][0] < vec.IndexValue[j][0] {
+			i++
+		} else {
+			j++
 		}
+
 	}
 	return sum
 }
