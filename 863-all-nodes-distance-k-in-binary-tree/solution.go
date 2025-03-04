@@ -29,6 +29,7 @@ func distanceK(root *TreeNode, target *TreeNode, k int) []int {
 
 		for _, node := range n {
 			if !visited[node] {
+				visited[node] = true
 				queue = append(queue, [2]int{node, f[1] + 1})
 			}
 		}
@@ -53,5 +54,4 @@ func dfs(node *TreeNode, parent *TreeNode, graph *map[int][]int) {
 		dfs(node.Left, node, graph)
 	}
 
-	graph = &g
 }
